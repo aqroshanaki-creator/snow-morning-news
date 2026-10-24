@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Snow Morning News - 佐久間大介＆Snow Man 朝刊</title>
+  
+  <!-- PWA & iOS Safari 設定 -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FF6584">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SnowNews">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- パスワードロック画面（合言葉を入力するまでコンテンツを保護） -->
+  <div id="lock-screen" class="lock-overlay">
+    <div class="lock-card">
+      <div class="lock-icon-wrap">
+        <span class="lock-icon">🔒</span>
+      </div>
+      <h2 class="lock-title">Snow Morning News</h2>
+      <p class="lock-desc">この朝刊を読むには<br>合言葉を入力してください💖</p>
+      
+      <form id="lock-form" class="lock-form" onsubmit="return false;">
+        <input 
+          type="password" 
+          id="password-input" 
+          class="lock-input" 
+          placeholder="合言葉を入力" 
+          autocomplete="current-password"
+          required
+        >
+        <button type="submit" id="unlock-btn" class="lock-btn">開く ✨</button>
+      </form>
+      <p id="lock-error" class="lock-error"></p>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ（認証後に表示） -->
+  <div id="app-content" class="app-container" style="display: none;">
+    <!-- ヘッダー（日付・更新時刻・モード切替） -->
+    <header class="app-header">
+      <div class="header-main">
+        <div class="header-badge">
+          <span class="icon-snow">❄️</span> 毎朝のSnow Manニュース
+        </div>
+        <h1 class="app-title">Snow Morning News</h1>
+        <div class="header-sub">
+          <span id="update-date" class="update-date">読み込み中...</span>
+          <span id="update-time" class="update-time"></span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="テーマ切替">🌓</button>
+        <button id="refresh-btn" class="btn-icon" aria-label="更新">🔄</button>
+      </div>
+    </header>
+
+    <!-- 今日のひとこと（佐久間くん＆Snow Manの元気が出るメッセージ） -->
+    <section class="section-quote">
+      <div class="quote-card">
+        <div class="quote-header">
+          <span class="quote-icon">💖</span>
+          <span class="quote-label">今日のひとこと</span>
+        </div>
+        <p id="daily-quote" class="quote-text">ニュースを読み込んでいます...</p>
+      </div>
+    </section>
+
+    <!-- メインコンテンツ -->
+    <main class="news-main">
+      <!-- 佐久間大介 セクション（最重要・ピンク強調） -->
+      <section class="news-section sakuma-section">
+        <div class="section-title-wrap">
+          <div class="section-title-icon sakuma-icon">💖</div>
+          <div>
+            <h2 class="section-title">佐久間大介 ニュース</h2>
+            <span class="section-subtitle">アニメ・声優・個人活動ピックアップ</span>
+          </div>
+        </div>
+        <div id="sakuma-news-list" class="news-list">
+          <!-- JSで動的挿入 -->
+          <div class="loading-placeholder">ニュースを読み込んでいます...</div>
+        </div>
+      </section>
+
+      <!-- Snow Man 全体 セクション -->
+      <section class="news-section snowman-section">
+        <div class="section-title-wrap">
+          <div class="section-title-icon snowman-icon">⛄</div>
+          <div>
+            <h2 class="section-title">Snow Man ニュース</h2>
+            <span class="section-subtitle">グループ新着＆メンバーの話題</span>
+          </div>
+        </div>
+        <div id="snowman-news-list" class="news-list">
+          <!-- JSで動的挿入 -->
+          <div class="loading-placeholder">ニュースを読み込んでいます...</div>
+        </div>
+      </section>
+
+      <!-- 出演・掲載予定（取得時のみ表示） -->
+      <section id="schedule-section" class="news-section schedule-section" style="display: none;">
+        <div class="section-title-wrap">
+          <div class="section-title-icon schedule-icon">📺</div>
+          <div>
+            <h2 class="section-title">出演・放送予定</h2>
+            <span class="section-subtitle">今日〜今週の注目スケジュール</span>
+          </div>
+        </div>
+        <div id="schedule-list" class="schedule-list">
+          <!-- JSで動的挿入 -->
+        </div>
+      </section>
+
+      <!-- X（SNS）でのファンの盛り上がり（取得時のみ表示） -->
+      <section id="xbuzz-section" class="news-section xbuzz-section" style="display: none;">
+        <div class="section-title-wrap">
+          <div class="section-title-icon xbuzz-icon">💬</div>
+          <div>
+            <h2 class="section-title">ファンの話題・トレンド反響</h2>
+            <span class="section-subtitle">SNSで話題になったトピックス</span>
+          </div>
+        </div>
+        <div id="xbuzz-list" class="xbuzz-list">
+          <!-- JSで動的挿入 -->
+        </div>
+      </section>
+
+      <!-- 公式リンク & Xタイムライン枠（任意） -->
+      <section class="official-links-section">
+        <h3 class="official-title">公式リンク</h3>
+        <div class="official-links">
+          <a href="https://mentrecording.jp/snowman/" target="_blank" rel="noopener noreferrer" class="link-chip">
+            💿 MENT RECORDING
+          </a>
+          <a href="https://starto.jp/s/p/artist/43" target="_blank" rel="noopener noreferrer" class="link-chip">
+            🌟 STARTO ENTERTAINMENT
+          </a>
+          <a href="https://x.com/SN__20200122" target="_blank" rel="noopener noreferrer" class="link-chip">
+            🕊️ Snow Man 公式X
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="app-footer">
+      <p class="copyright-note">※ 本アプリは要約と元記事へのリンクを提供しています。著作権は各ニュース提供元に帰属します。</p>
+      <p class="footer-sign">Made with 💖 for Snow Man & Daisuke Sakuma Fans</p>
+      <button id="lock-btn-footer" class="btn-lock-footer" title="画面を再ロックする">🔒 ロックする</button>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
