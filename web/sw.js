@@ -1,5 +1,5 @@
 // Service Worker - オフラインキャッシュ対応
-const CACHE_NAME = 'snow-morning-news-v1';
+const CACHE_NAME = 'snow-morning-news-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -72,4 +72,3 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-

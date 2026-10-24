@@ -114,6 +114,130 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 24px);
 }
 
+/* ========================================================
+   ロック画面（合言葉認証オーバーレイ）
+   ======================================================== */
+.lock-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-color);
+  background-image: var(--bg-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lock-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lock-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 32px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-pink);
+  border: 1px solid var(--border-color);
+}
+
+.lock-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: var(--accent-pink-soft);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 2rem;
+}
+
+.lock-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.lock-desc {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.lock-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lock-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  background: var(--card-sub-bg);
+  color: var(--text-main);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.lock-input:focus {
+  border-color: var(--accent-pink);
+}
+
+.lock-btn {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #FF6584 0%, #E0407B 100%);
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(224, 64, 123, 0.35);
+  transition: transform 0.1s ease, opacity 0.2s;
+}
+
+.lock-btn:active {
+  transform: scale(0.98);
+}
+
+.lock-error {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #E53E3E;
+  margin-top: 10px;
+  min-height: 20px;
+}
+
+.lock-shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* ========================================================
+   メインコンテンツレイアウト
+   ======================================================== */
 .app-container {
   max-width: 540px;
   margin: 0 auto;
@@ -444,6 +568,23 @@ body {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent-pink);
+  margin-bottom: 12px;
+}
+
+.btn-lock-footer {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-lock-footer:active {
+  background: var(--card-sub-bg);
+  color: var(--accent-pink);
 }
 
 /* ローディング & 空表示 */
@@ -456,4 +597,3 @@ body {
   border-radius: 14px;
   border: 1px dashed var(--border-color);
 }
-

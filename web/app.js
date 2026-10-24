@@ -1,17 +1,128 @@
 /**
- * Snow Morning News - アプリケーションロジック
+ * Snow Morning News - アプリケーションロジック ＆ パスワード保護
  */
 
+// 合言葉 "ramen0705" のSHA-256ハッシュ値
+const AUTH_HASH = "a9496edb7e76fc1a0f5001e5a45085e2ba9ccb2daee12f1d12e30eca79fa6995";
+const AUTH_STORAGE_KEY = "snow_news_auth_token";
+
 document.addEventListener('DOMContentLoaded', () => {
+  initAuth();
   initTheme();
-  loadNewsData();
   registerServiceWorker();
 
   // リフレッシュボタン
   document.getElementById('refresh-btn').addEventListener('click', () => {
     loadNewsData(true);
   });
+
+  // 再ロックボタン（フッター）
+  const lockFooterBtn = document.getElementById('lock-btn-footer');
+  if (lockFooterBtn) {
+    lockFooterBtn.addEventListener('click', () => {
+      lockApp();
+    });
+  }
 });
+
+/**
+ * 文字列のSHA-256ハッシュを計算する（Web Crypto API）
+ */
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}
+
+/**
+ * 認証・ロック画面の初期化
+ */
+function initAuth() {
+  const lockScreen = document.getElementById('lock-screen');
+  const appContent = document.getElementById('app-content');
+  const lockForm = document.getElementById('lock-form');
+  const passwordInput = document.getElementById('password-input');
+  const lockError = document.getElementById('lock-error');
+  const lockCard = document.querySelector('.lock-card');
+
+  // 保存済みの認証トークンを確認
+  const savedToken = localStorage.getItem(AUTH_STORAGE_KEY);
+  if (savedToken === AUTH_HASH) {
+    // 認証済み：ロック画面を隠してメインコンテンツを表示
+    unlockApp(false);
+    return;
+  }
+
+  // 未認証：ロック画面を表示
+  lockScreen.classList.remove('hidden');
+  appContent.style.display = 'none';
+
+  // パスワード送信イベント
+  lockForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const inputVal = passwordInput.value.trim();
+    if (!inputVal) return;
+
+    const inputHash = await sha256(inputVal);
+    if (inputHash === AUTH_HASH) {
+      // 認証成功：端末に保存してロック解除
+      localStorage.setItem(AUTH_STORAGE_KEY, AUTH_HASH);
+      lockError.textContent = '';
+      unlockApp(true);
+    } else {
+      // 認証失敗：エラー表示＆シェイク
+      lockError.textContent = '合言葉が違います (＞＜)';
+      lockCard.classList.remove('lock-shake');
+      void lockCard.offsetWidth; // リフロー発生
+      lockCard.classList.add('lock-shake');
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  });
+}
+
+/**
+ * ロックを解除してニュースを表示
+ */
+function unlockApp(animate = false) {
+  const lockScreen = document.getElementById('lock-screen');
+  const appContent = document.getElementById('app-content');
+
+  appContent.style.display = 'block';
+  if (animate) {
+    lockScreen.classList.add('hidden');
+    setTimeout(() => {
+      lockScreen.style.display = 'none';
+    }, 300);
+  } else {
+    lockScreen.style.display = 'none';
+    lockScreen.classList.add('hidden');
+  }
+
+  // ニュースデータのロード
+  loadNewsData();
+}
+
+/**
+ * 再びロックする
+ */
+function lockApp() {
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  const lockScreen = document.getElementById('lock-screen');
+  const appContent = document.getElementById('app-content');
+  const passwordInput = document.getElementById('password-input');
+  const lockError = document.getElementById('lock-error');
+
+  passwordInput.value = '';
+  lockError.textContent = '';
+  lockScreen.style.display = 'flex';
+  void lockScreen.offsetWidth;
+  lockScreen.classList.remove('hidden');
+  appContent.style.display = 'none';
+  passwordInput.focus();
+}
 
 /**
  * ニュースデータの読み込みとレンダリング
@@ -175,4 +286,3 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
-
