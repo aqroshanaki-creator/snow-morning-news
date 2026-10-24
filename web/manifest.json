@@ -1,0 +1,29 @@
+{
+  "name": "Snow Morning News - 佐久間大介＆Snow Man",
+  "short_name": "SnowNews",
+  "description": "Snow Man（特に佐久間大介）の最新情報を毎朝届ける朝刊PWAアプリ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FFF5F7",
+  "theme_color": "#FF6584",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+

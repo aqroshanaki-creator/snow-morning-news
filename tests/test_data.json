@@ -1,0 +1,33 @@
+{
+  "positive_article": {
+    "title": "佐久間大介、人気アニメ劇場版でゲスト声優に抜擢！",
+    "link": "https://news.yahoo.co.jp/articles/sample"
+  },
+  "ng_articles": [
+    {
+      "title": "Snow Manメンバー間で不仲説が浮上？真相を追う",
+      "link": "https://example.com/1"
+    },
+    {
+      "title": "SNSで大炎上！佐久間大介の発言に批判殺到",
+      "link": "https://example.com/2"
+    },
+    {
+      "title": "週刊誌スクープ！人気アイドルの熱愛疑惑",
+      "link": "https://example.com/3"
+    },
+    {
+      "title": "突然の脱退や解散の噂にファン騒然",
+      "link": "https://example.com/4"
+    },
+    {
+      "title": "ネットで物議を醸すアンチの書き込み",
+      "link": "https://example.com/5"
+    }
+  ],
+  "ng_domain_article": {
+    "title": "Snow Manの最新事情",
+    "link": "https://www.cyzo.com/2026/10/article.html"
+  }
+}
+

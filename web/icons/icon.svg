@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8DA1"/>
+      <stop offset="50%" stop-color="#FF6584"/>
+      <stop offset="100%" stop-color="#E0407B"/>
+    </linearGradient>
+    <linearGradient id="snowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FFF0F5"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- 背景角丸スクエア -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)"/>
+
+  <!-- 光のアクセント -->
+  <circle cx="120" cy="110" r="140" fill="#ffffff" opacity="0.12"/>
+  
+  <!-- 中央グループ（雪の結晶 ＆ ハートモチーフ） -->
+  <g filter="url(#shadow)" fill="url(#snowGrad)">
+    <!-- 縦横・斜めの雪の結晶バー -->
+    <rect x="244" y="96" width="24" height="320" rx="12"/>
+    <rect x="96" y="244" width="320" height="24" rx="12"/>
+    <rect x="244" y="96" width="24" height="320" rx="12" transform="rotate(45 256 256)"/>
+    <rect x="244" y="96" width="24" height="320" rx="12" transform="rotate(-45 256 256)"/>
+
+    <!-- 結晶の枝先飾り -->
+    <!-- 上 -->
+    <path d="M226 140 L256 105 L286 140" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 下 -->
+    <path d="M226 372 L256 407 L286 372" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 左 -->
+    <path d="M140 226 L105 256 L140 286" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 右 -->
+    <path d="M372 226 L407 256 L372 286" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- 中央のハートアクセント（佐久間くんピンクの象徴） -->
+  <circle cx="256" cy="256" r="54" fill="#FFFFFF"/>
+  <path d="M256 280 C246 268 230 252 230 240 C230 228 240 220 250 220 C254 220 255 222 256 224 C257 222 258 220 262 220 C272 220 282 228 282 240 C282 252 266 268 256 280 Z" fill="#E0407B"/>
+</svg>
+

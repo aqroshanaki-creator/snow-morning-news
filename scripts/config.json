@@ -1,0 +1,76 @@
+{
+  "search_settings": {
+    "lookback_hours": 36,
+    "max_items_sakuma": 5,
+    "max_items_snowman": 5,
+    "rss_feeds": {
+      "sakuma": [
+        "https://news.google.com/rss/search?q=%E4%BD%90%E4%B9%85%E9%96%93%E5%A4%A7%E4%BB%8B+when:3d&hl=ja&gl=JP&ceid=JP:ja",
+        "https://news.google.com/rss/search?q=%E4%BD%90%E4%B9%85%E9%96%93%E5%A4%A7%E4%BB%8B+%E5%87%BA%E6%BC%94+when:3d&hl=ja&gl=JP&ceid=JP:ja"
+      ],
+      "snowman": [
+        "https://news.google.com/rss/search?q=%22Snow+Man%22+OR+%E3%82%B9%E3%83%8E%E3%83%BC%E3%83%9E%E3%83%B3+when:2d&hl=ja&gl=JP&ceid=JP:ja"
+      ],
+      "schedule": [
+        "https://news.google.com/rss/search?q=(%E4%BD%90%E4%B9%85%E9%96%93%E5%A4%A7%E4%BB%8B+OR+%22Snow+Man%22)+(%E5%87%BA%E6%BC%94+OR+%E6%94%BE%E9%80%81+OR+%E7%99%BA%E5%A3%B2)+when:2d&hl=ja&gl=JP&ceid=JP:ja"
+      ]
+    }
+  },
+  "filtering": {
+    "ng_keywords": [
+      "炎上",
+      "批判",
+      "バッシング",
+      "不仲",
+      "熱愛",
+      "交際",
+      "匂わせ",
+      "疑惑",
+      "退所",
+      "脱退",
+      "解散",
+      "文春",
+      "フライデー",
+      "FRIDAY",
+      "新潮",
+      "女性セブン",
+      "週刊女性",
+      "実話",
+      "サイゾー",
+      "東スポ",
+      "激怒",
+      "怒り",
+      "落胆",
+      "物議",
+      "裏切り",
+      "トラブル",
+      "警察",
+      "逮捕",
+      "事件",
+      "被害",
+      "謝罪",
+      "違約金",
+      "ギャラ",
+      "暴露",
+      "ガーシー",
+      "噂",
+      "デマ",
+      "悪質",
+      "アンチ"
+    ],
+    "ng_domains": [
+      "cyzo.com",
+      "weekly-jitsuwa.jp",
+      "taishu.jp",
+      "tokyo-sports.co.jp"
+    ]
+  },
+  "gemini_settings": {
+    "model": "gemini-2.5-flash",
+    "fallback_model": "gemini-1.5-flash",
+    "temperature": 0.2,
+    "max_retries": 3,
+    "retry_delay_seconds": 4
+  }
+}
+
