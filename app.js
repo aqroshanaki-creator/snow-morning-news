@@ -206,6 +206,28 @@ async function loadNewsData(forceRefresh = false) {
 }
 
 /**
+ * 配信日時のフォーマット（JST: MM/DD HH:mm）
+ */
+function formatArticleDate(dateStr) {
+  if (!dateStr) return '';
+  // すでに MM/DD HH:mm 形式の場合
+  if (/^\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}$/.test(dateStr.trim())) {
+    return dateStr.trim();
+  }
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const h = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${m}/${day} ${h}:${min}`;
+  } catch (e) {
+    return dateStr;
+  }
+}
+
+/**
  * ニュースカードのレンダリング
  */
 function renderNewsCards(container, items, emptyMessage) {
@@ -216,10 +238,16 @@ function renderNewsCards(container, items, emptyMessage) {
 
   container.innerHTML = items.map(item => {
     const yesterdayBadge = item.is_yesterday ? '<span class="badge-yesterday">昨日のニュース</span>' : '';
+    const formattedDate = formatArticleDate(item.published);
+    const pubDateHtml = formattedDate ? `<span class="news-pub-date">🕒 ${escapeHtml(formattedDate)}</span>` : '';
+
     return `
       <article class="news-card">
         <div class="card-header-meta">
-          <span class="news-source">${escapeHtml(item.source || 'ニュース')}</span>
+          <div class="source-meta-left">
+            <span class="news-source">${escapeHtml(item.source || 'ニュース')}</span>
+            ${pubDateHtml}
+          </div>
           ${yesterdayBadge}
         </div>
         <h3 class="news-title">${escapeHtml(item.title)}</h3>

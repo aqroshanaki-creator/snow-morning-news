@@ -1,5 +1,5 @@
 // Service Worker - オフラインキャッシュ対応
-const CACHE_NAME = 'snow-morning-news-v2';
+const CACHE_NAME = 'snow-morning-news-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
